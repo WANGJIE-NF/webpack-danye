@@ -2,7 +2,7 @@ const path = require("path");
 // const webpack = require('webpack');
 const CopyWebpackPlugin = require("copy-webpack-plugin"); // 静态资源输出
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // 独立打包html
-const ExtractTextPlugin = require("extract-text-webpack-plugin"); // 独立打包css
+const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 独立打包css
 
 module.exports = {
   // 打包环境
@@ -51,11 +51,14 @@ module.exports = {
       // css loaders 方案二，独立css文件
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: ["css-loader", 'postcss-loader'],
-          publicPath: "./",
-        }),
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: { publicPath: "./", },
+          },
+          {loader: "css-loader"},
+          {loader: "postcss-loader" },
+        ],
       },
 
       // image loaders
@@ -112,6 +115,9 @@ module.exports = {
     ]),
 
     // 独立css，
-    new ExtractTextPlugin("index.css"),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: '[id].css',
+    }),
   ],
 };

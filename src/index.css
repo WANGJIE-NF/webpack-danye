@@ -1,9 +1,6 @@
-html{
-    height:100%
-}
+
 body{
     margin: 0;
-    height: 100%;
     background-image: url('./images/1.jpg');
     background-size: 100% 100%;
     color: red;
@@ -11,4 +8,3 @@ body{
 ::placeholder{
     color: #888;
 }
-
